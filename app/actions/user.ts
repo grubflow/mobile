@@ -1,0 +1,112 @@
+import { authRequestWithDispatch } from "../actions"
+import { 
+    GET_USER_REQUEST, 
+    GET_USER_SUCCESS, 
+    GET_USER_FAILURE, 
+
+    SET_USER_REQUEST, 
+    SET_USER_FAILURE, 
+    SET_USER_SUCCESS,
+
+    SET_LOGGED_IN
+} from "../reducers/user"
+import { AppDispatch } from "../store"
+
+export const getCurrentUser = () => {
+    return async (dispatch: AppDispatch) => {
+        return authRequestWithDispatch({
+            method: 'GET',
+            dispatch,
+            endpoint: 'current',
+            types: [GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE],
+        })
+    }
+}
+
+export const signUpUser = (
+    email: string, 
+    password: string, 
+    username: string
+) => {
+    return async (dispatch: AppDispatch) => {
+        dispatch({ type: SET_USER_REQUEST})
+        try {
+            const createUserPromise = await fetch('http://localhost:8000/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                })  
+            })
+            if (createUserPromise.ok) {
+                dispatch({
+                    type: SET_USER_SUCCESS,
+                    payload: await createUserPromise.json()
+                })
+            }
+        }
+        catch (error: any){
+            console.log('Sign Up Error: ', error)
+
+            dispatch({
+                type: SET_USER_FAILURE,
+                payload: {
+                    message: error.message,
+                    code: 500
+                } 
+            })
+        }
+
+        return dispatch({
+            type: SET_LOGGED_IN
+        })
+    }
+}
+
+export const signInUser = (
+    email: string,
+    password: string
+) => {
+    return async (dispatch: AppDispatch) => {
+        dispatch({ type: GET_USER_REQUEST })
+
+        try{
+            const signInUserPromise = await fetch('http://localhost:8000/api/users/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+
+            if (signInUserPromise.ok) {
+                dispatch({
+                    type: GET_USER_SUCCESS,
+                    payload: await signInUserPromise.json()
+                })
+            }
+        }
+        catch (error: any){
+            console.log('Sign In Error: ', error)
+
+            dispatch({
+                type: GET_USER_FAILURE,
+                payload: {
+                    message: error.message,
+                    code: 500
+                }
+            })
+        }
+        
+        return dispatch({
+            type: SET_LOGGED_IN
+        })
+    }
+}

@@ -1,12 +1,31 @@
-import ScreenLayout from '@/components/ScreenLayout'
 import { View, Text } from 'react-native'
+import { useRouter } from 'expo-router'
+import { useFonts } from 'expo-font'
+import { useEffect } from 'react'
+import * as SplashScreen from 'expo-splash-screen'
+import ScreenLayout from '@/components/ScreenLayout'
 import Button from '@/components/Button'
-import { useRouter } from 'expo-router';
+
+
+SplashScreen.preventAutoHideAsync()
 
 export default function HomeScreen () {
 
-    const router = useRouter();
-    
+    const router = useRouter()
+    const [loaded, error] = useFonts({
+        Comfortaa: require('../../assets/fonts/Comfortaa-Regular.ttf'),
+    })
+
+    useEffect(() => {
+        if (loaded || error) {
+            SplashScreen.hideAsync()
+        }
+    }, [loaded, error])
+
+    if (!loaded && !error){
+        return null;
+    }
+
     return (
         <ScreenLayout
             extraStyles={{

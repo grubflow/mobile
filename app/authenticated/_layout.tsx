@@ -1,5 +1,7 @@
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
+import { Provider } from 'react-redux';
+import { store } from '../reducers';
 
 // import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -20,9 +22,11 @@ export default function AuthenticatedRoot() {
   // }
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <Provider store={store}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </Provider>
   );
 }
