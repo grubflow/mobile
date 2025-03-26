@@ -1,7 +1,7 @@
-import { Stack } from 'expo-router';
-import 'react-native-reanimated';
-import { Provider } from 'react-redux';
-import { store } from '../reducers';
+import { Stack } from 'expo-router'
+import 'react-native-reanimated'
+import { Provider } from 'react-redux'
+import { store } from '../reducers'
 
 // import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -9,23 +9,23 @@ import { store } from '../reducers';
 // SplashScreen.preventAutoHideAsync();
 
 export default function AuthenticatedRoot() {
-  // const colorScheme = useColorScheme();
+    // const colorScheme = useColorScheme();
 
-  // useEffect(() => {
-  //   if (loaded) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [loaded]);
+    // useEffect(() => {
+    //   if (loaded) {
+    //     SplashScreen.hideAsync();
+    //   }
+    // }, [loaded]);
 
-  // if (!loaded) {
-  //   return null;
-  // }
+    // if (!loaded) {
+    //   return null;
+    // }
 
-  return (
-    <Provider store={store}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+        </Provider>
+    )
 }

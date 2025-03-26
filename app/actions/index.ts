@@ -12,16 +12,14 @@ type RequestWithDispatchParams = {
     headers?: Record<string, string>
 }
 
-export const requestWithDispatch = async (
-    {
-        dispatch,
-        endpoint,
-        method = 'GET',
-        types,
-        data,
-        headers = { 'Content-Type': 'application/json' }
-    }: RequestWithDispatchParams
-) => {
+export const requestWithDispatch = async ({
+    dispatch,
+    endpoint,
+    method = 'GET',
+    types,
+    data,
+    headers = { 'Content-Type': 'application/json' }
+}: RequestWithDispatchParams) => {
     const [requestType, successType, errorType] = types
 
     try {
@@ -33,7 +31,6 @@ export const requestWithDispatch = async (
             headers,
             ...(method !== 'GET' && data ? { body: JSON.stringify(data) } : {})
         })
-
 
         if (response.ok) {
             console.log('request to ', endpoint, ' successful')
@@ -47,31 +44,31 @@ export const requestWithDispatch = async (
                 payload: {
                     message: 'Token Expired',
                     status: 403
-                } 
+                }
             })
             dispatch({
-                type: SET_LOGGED_OUT,
+                type: SET_LOGGED_OUT
             })
         }
-    }
-    catch (error: any){
+    } catch (error: any) {
         console.error('request to ', endpoint, ' failed with error: ', error)
-        dispatch({ type: errorType, payload: { message: error.message, code: 500 } as Error })
+        dispatch({
+            type: errorType,
+            payload: { message: error.message, code: 500 } as Error
+        })
     }
 
     return
 }
 
-export const authRequestWithDispatch = async (
-{
+export const authRequestWithDispatch = async ({
     dispatch,
     endpoint,
     method = 'GET',
     types,
     data,
     headers = { 'Content-Type': 'application/json' }
-} : RequestWithDispatchParams
-) => {
+}: RequestWithDispatchParams) => {
     const userToken = getKey('user_token')
 
     if (!userToken) {
@@ -80,7 +77,7 @@ export const authRequestWithDispatch = async (
         })
     }
 
-    const combinedHeaders = { ...headers, Authorization: `Bearer ${userToken}`}
+    const combinedHeaders = { ...headers, Authorization: `Bearer ${userToken}` }
 
     return await requestWithDispatch({
         dispatch,

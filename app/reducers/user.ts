@@ -1,9 +1,5 @@
 import { UnknownAction } from '@reduxjs/toolkit'
-import { 
-    Error, 
-    User,
-    UserState,
-} from '../types'
+import { Error, User, UserState } from '../types'
 
 export const GET_USER_REQUEST = '@@user/GET_USER_REQUEST'
 export const GET_USER_SUCCESS = '@@user/GET_USER_SUCCESS'
@@ -22,7 +18,7 @@ export const InitialUserState: UserState = {
     loggedIn: false,
     user: undefined,
     error: undefined,
-    token: undefined,
+    token: undefined
 }
 
 export default (state = InitialUserState, action: UnknownAction) => {
@@ -31,7 +27,7 @@ export default (state = InitialUserState, action: UnknownAction) => {
         case SET_USER_REQUEST:
             return {
                 ...state,
-                loading: true,
+                loading: true
             }
         case GET_USER_SUCCESS:
         case SET_USER_SUCCESS:
@@ -39,30 +35,30 @@ export default (state = InitialUserState, action: UnknownAction) => {
                 ...state,
                 loading: false,
                 error: undefined,
-                user: action.payload as User,
+                user: action.payload as User
             }
         case GET_USER_FAILURE:
         case SET_USER_FAILURE:
             return {
                 ...state,
                 loading: false,
-                error: action.payload as Error,
+                error: action.payload as Error
             }
         case SET_LOGGED_OUT:
             return {
                 ...state,
-                user: undefined,
+                user: undefined
             }
 
         case SET_LOGGED_IN:
             return {
                 ...state,
-                loggedIn: true,
+                loggedIn: true
             }
         case CLEAR_USER_ERRORS:
             return {
                 ...state,
-                error: undefined,
+                error: undefined
             }
         default:
             return state

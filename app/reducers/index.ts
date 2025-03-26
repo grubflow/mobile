@@ -3,10 +3,10 @@ import user from './user'
 
 export const store = configureStore({
     reducer: {
-        user,
+        user
     }
 })
 
 export default combineReducers({
-    user,
+    user
 })

@@ -1,36 +1,36 @@
 export type Error = {
-    message: string,
-    code: number,
+    message: string
+    code: number
 }
 
 export type User = {
-    username: string,
-    email: string,
-    last_login: string,
-    date_joined: string,
+    username: string
+    email: string
+    last_login: string
+    date_joined: string
     is_active: boolean
-    token: string,
+    token: string
 }
 
 export type BaseUserState = {
-    loading: boolean,
-    error?: Error,
+    loading: boolean
+    error?: Error
 }
 
 export type UserState = BaseUserState & {
-    loggedIn: boolean,
-    user?: User,
-    token?: string, 
+    loggedIn: boolean
+    user?: User
+    token?: string
 }
 
 export type Swipable = {
-    Recipe?: Recipe,
-    Restaurant?: Restaurant,
-    category?: string,
-    imageURL?: string,
-    description: string,
+    Recipe?: Recipe
+    Restaurant?: Restaurant
+    category?: string
+    imageURL?: string
+    description: string
     dateAdded: string
-    name: string,
+    name: string
 }
 
 export type Restaurant = {
@@ -38,14 +38,14 @@ export type Restaurant = {
 }
 
 export type Recipe = {
-    username?: string,
-    ingredients? : string[],
+    username?: string
+    ingredients?: string[]
 }
 
 export type Location = {
-    city: string,
-    state: string,
-    country: string,
-    zip: string,
-    address: string,
+    city: string
+    state: string
+    country: string
+    zip: string
+    address: string
 }
