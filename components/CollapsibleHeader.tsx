@@ -4,7 +4,7 @@ import {
     Animated,
     ScrollView,
     StyleSheet,
-    TouchableOpacity
+    Pressable, 
 } from 'react-native'
 
 const HEADER_MAX_HEIGHT = 70
@@ -55,28 +55,27 @@ const CollapsibleHeader = (props: CollapsibleHeaderParams) => {
             </Animated.View>
 
             <ScrollView
-                style={{ marginTop: '11%', }}
+                style={{ marginVertical: '15%' }}
                 contentContainerStyle={styles.scrollContent}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                     { useNativeDriver: false }
                 )}
             >
-                <TouchableOpacity>
-                    {
-                        [...Array(props.ScrollableContent.length)].map((_, index) => (
-                            <TouchableOpacity key={index} style={{ padding: 10}}>
-                            </TouchableOpacity>
-                        ))
-                    }
-                </TouchableOpacity>
+                {
+                    props.ScrollableContent.map((content, index) => (
+                        <Pressable style={{ width: '100%', alignItems: 'center'}} key={index}>
+                            {content}
+                        </Pressable>
+                    ))
+                }
             </ScrollView>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
+    container: { flex: 1, width: '100%'},
     header: {
         position: 'absolute',
         top: 0,
@@ -96,8 +95,6 @@ const styles = StyleSheet.create({
         top: HEADER_MIN_HEIGHT - 50,
         marginVertical: '5%',
         zIndex: 2,
-        borderBottomColor: 'gray',
-        borderBottomWidth: 0.25,
         width: '100%',
     },
     smallHeaderTitle: {
@@ -107,7 +104,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#FC6C85',
     },
-    scrollContent: { marginTop: '5%',},
+    scrollContent: { display: 'flex', justifyContent: 'center', marginTop: '5%', alignItems: 'center', width: '100%' } ,
     content: { backgroundColor: '#f8f8f8', },
 })
 

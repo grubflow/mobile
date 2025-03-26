@@ -1,15 +1,9 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ChevronDown } from 'react-native-feather'
-import CollapsibleHeader from '@/components/CollapsibleHeader'
 import ScreenLayout from '@/components/ScreenLayout'
 // import { } from 'react-native-deck-swiper'
 
 export default function HomeScreen() {
-	const scrollContent = [...Array(20)].map((_, index) => (
-		<Text key={index} >
-			Hello World
-		</Text>
-	  ))
 
 	return (
 		<ScreenLayout
@@ -58,11 +52,6 @@ export default function HomeScreen() {
 				</TouchableOpacity>
 			</View>
 			<View style={{ marginTop: '10%', width: '100%', height: '90%' }}>
-				<CollapsibleHeader
-					LargeTitle="Home"
-					SmallTitle="Home"
-					ScrollableContent={scrollContent}
-				/>
 			</View>
 			<View>
 				<Text>Home</Text>
