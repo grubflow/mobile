@@ -4,7 +4,7 @@ import {
     Animated,
     ScrollView,
     StyleSheet,
-    Pressable, 
+    Pressable
 } from 'react-native'
 
 const HEADER_MAX_HEIGHT = 70
@@ -62,20 +62,21 @@ const CollapsibleHeader = (props: CollapsibleHeaderParams) => {
                     { useNativeDriver: false }
                 )}
             >
-                {
-                    props.ScrollableContent.map((content, index) => (
-                        <Pressable style={{ width: '100%', alignItems: 'center'}} key={index}>
-                            {content}
-                        </Pressable>
-                    ))
-                }
+                {props.ScrollableContent.map((content, index) => (
+                    <Pressable
+                        style={{ width: '100%', alignItems: 'center' }}
+                        key={index}
+                    >
+                        {content}
+                    </Pressable>
+                ))}
             </ScrollView>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, width: '100%'},
+    container: { flex: 1, width: '100%' },
     header: {
         position: 'absolute',
         top: 0,
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
         right: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 1,
+        zIndex: 1
     },
     headerTitle: {
         fontSize: 24,
@@ -95,17 +96,23 @@ const styles = StyleSheet.create({
         top: HEADER_MIN_HEIGHT - 50,
         marginVertical: '5%',
         zIndex: 2,
-        width: '100%',
+        width: '100%'
     },
     smallHeaderTitle: {
         marginLeft: '5%',
         marginBottom: '5%',
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#FC6C85',
+        color: '#FC6C85'
     },
-    scrollContent: { display: 'flex', justifyContent: 'center', marginTop: '5%', alignItems: 'center', width: '100%' } ,
-    content: { backgroundColor: '#f8f8f8', },
+    scrollContent: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '5%',
+        alignItems: 'center',
+        width: '100%'
+    },
+    content: { backgroundColor: '#f8f8f8' }
 })
 
 export default CollapsibleHeader
