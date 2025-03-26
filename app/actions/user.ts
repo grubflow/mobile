@@ -45,13 +45,24 @@ export const signUpUser = (
                 })  
             })
 
+            const payloadJSON = await createUserPromise.json()
+
             if (createUserPromise.ok){
-                dispatch({ type: SET_USER_SUCCESS, payload: await createUserPromise.json() })
+                dispatch({ 
+                    type: SET_USER_SUCCESS, 
+                    payload: payloadJSON 
+                })
                 setKey('user_token', 'true')
                 return dispatch({ type: SET_LOGGED_IN})
             }
             else 
-                return dispatch({ type: SET_USER_FAILURE, payoad: await createUserPromise.json()})
+                return dispatch({ 
+                    type: SET_USER_FAILURE,
+                    payload: {
+                        message: payloadJSON,
+                        code: createUserPromise.status
+                    } 
+                })
         }
         catch (error: any){
             console.log('Sign Up Error: ', error)
@@ -99,7 +110,13 @@ export const signInUser = (
             }
             else{
                 console.log("Error: ", payloadJSON)
-                return dispatch({ type: GET_USER_FAILURE, payload: payloadJSON })
+                return dispatch({ 
+                    type: GET_USER_FAILURE, 
+                    payload: {
+                        message: payloadJSON,
+                        code: signInUserPromise.status
+                    }
+                })
             } 
         }
         catch (error: any){
