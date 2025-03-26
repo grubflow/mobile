@@ -1,16 +1,13 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Platform } from 'react-native'
+import { ShoppingBag } from 'react-native-feather'
+import { Tabs } from 'expo-router'
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function TabLayout () {
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#FC6C85',
         headerShown: false,
         tabBarStyle: Platform.select({
           ios: {

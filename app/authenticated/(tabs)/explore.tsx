@@ -1,11 +1,17 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import ScreenLayout from '@/components/ScreenLayout'
+import { 
+  View, 
+  Text 
+} from 'react-native'
 
-export default function TabTwoScreen() {
+export default function TabTwoScreen () {
   return (
-    <View>
-      <Text>
-        Explore
-      </Text>
-    </View>
-  );
+    <ScreenLayout>
+      <View>
+        <Text>
+          Explore 
+        </Text>
+      </View>
+    </ScreenLayout>
+  )
 }

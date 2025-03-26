@@ -24,17 +24,25 @@ const SignIn = () => {
     const user = UseAppSelector((state) => state.user)
     const router = useRouter()
 
-    const emailFillValue = useRef(new Animated.Value(0)).current
+    const usernameFillValue = useRef(new Animated.Value(0)).current
     const passwordFillValue = useRef(new Animated.Value(0)).current
 
-    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
+
+    const [loginNotification, setLoginNotification] = useState(false)
 
     const fillWidth = (property: Animated.Value) => {
         return property.interpolate({
             inputRange: [0, 1],
             outputRange: ['0%', '100%'],
+        })
+    }
+
+    const fillWidthInverse = (property: Animated.Value) => {
+        return property.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['100%', '0%'],
         })
     }
 
@@ -94,17 +102,17 @@ const SignIn = () => {
                                 top: 0,
                                 left: 0,
                                 bottom: 0,
-                                width: fillWidth(emailFillValue),
+                                width: fillWidth(usernameFillValue),
                                 backgroundColor: '#FC6C85',
                                 zIndex: 0,
                             }}
                         />
                         <TextInput
-                            onEndEditing={() => animateButtonColor(emailFillValue)}
+                            onEndEditing={() => {if (username !== "") animateButtonColor(usernameFillValue)}}
                             autoCapitalize='none'
-                            value={email}
-                            onChangeText={setEmail}
-                            placeholder='Email:'
+                            value={username}
+                            onChangeText={setUsername}
+                            placeholder='Username:'
                             placeholderTextColor="#333"
                             style={{
                                 padding: 10,
@@ -127,8 +135,8 @@ const SignIn = () => {
                             }}
                         />
                         <TextInput
-                            onEndEditing={() => animateButtonColor(passwordFillValue)}
-                            secureTextEntry={!showPassword}
+                            onEndEditing={() => { if (password !== "") animateButtonColor(passwordFillValue)}}
+                            secureTextEntry={true}
                             autoCapitalize='none'
                             value={password}
                             onChangeText={setPassword}
@@ -141,7 +149,26 @@ const SignIn = () => {
                                 backgroundColor: 'transparent',
                             }}
                         />
+
                     </View>
+                    {
+                        user.error? (
+
+                            <View style={{
+                                display: 'flex',
+                                width: '100%',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 12,
+                                    fontWeight: '200',
+                                    color: 'red',
+                                }}>
+                                    Invalid Username or Password
+                                </Text>
+                            </View>
+                        ) : null
+                    }
                 </View>
                 <View style={{
                     display: 'flex',
@@ -152,13 +179,21 @@ const SignIn = () => {
                     <View style={{ height: '35%' }}></View>
                     <Button 
                         color="#FC6C85"
-                        onPress={() => {
-                            setKey('user_token')
-                            dispatch(signInUser(email, password))
-                        } 
-                        }
+                        onPress={async () => {
+                            await dispatch(signInUser(username, password)).then(() => {
+                                if (!user.error)
+                                    router.push('/authenticated/(tabs)')
+                                else if (user.error.code === 400){
+                                    setLoginNotification(true)
+                                    setUsername('')
+                                    setPassword('')
+                                    fillWidthInverse(usernameFillValue)
+                                    fillWidthInverse(passwordFillValue)
+                                } 
+                            })
+                        }}
                         loading={user.loading}
-                        disabled={!email || !password || email.includes('@') === false}
+                        disabled={!username || !password }
                         fullWidth
                     >
                         Sign In

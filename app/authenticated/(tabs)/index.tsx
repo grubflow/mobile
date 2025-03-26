@@ -1,11 +1,18 @@
-import { Image, StyleSheet, Platform, Text, View } from 'react-native';
+import ScreenLayout from '@/components/ScreenLayout'
+import { 
+  Text, 
+  View 
+} from 'react-native'
+import {  } from 'react-native-deck-swiper'
 
 export default function HomeScreen() {
   return (
-    <View>
-      <Text>
-        Home
-      </Text>
-    </View>
-  );
+    <ScreenLayout>
+      <View>
+        <Text>
+          Home
+        </Text>
+      </View>
+    </ScreenLayout>
+  )
 }

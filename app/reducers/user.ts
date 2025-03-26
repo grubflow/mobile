@@ -22,6 +22,7 @@ export const InitialUserState: UserState = {
     loggedIn: false,
     user: undefined,
     error: undefined,
+    token: undefined,
 }
 
 export default (state = InitialUserState, action: UnknownAction) => {

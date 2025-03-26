@@ -10,7 +10,9 @@ import {
 
     SET_LOGGED_IN
 } from "../reducers/user"
-import { AppDispatch } from "../store"
+import { AppDispatch, UseAppSelector } from "../store"
+import { Error } from "../types"
+import { setKey } from "../utils/storage"
 
 export const getCurrentUser = () => {
     return async (dispatch: AppDispatch) => {
@@ -31,7 +33,7 @@ export const signUpUser = (
     return async (dispatch: AppDispatch) => {
         dispatch({ type: SET_USER_REQUEST})
         try {
-            const createUserPromise = await fetch('http://localhost:8000/api/users', {
+            const createUserPromise = await fetch('http://localhost:8000/api/users/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,17 +44,19 @@ export const signUpUser = (
                     password,
                 })  
             })
-            if (createUserPromise.ok) {
-                dispatch({
-                    type: SET_USER_SUCCESS,
-                    payload: await createUserPromise.json()
-                })
+
+            if (createUserPromise.ok){
+                dispatch({ type: SET_USER_SUCCESS, payload: await createUserPromise.json() })
+                setKey('user_token', 'true')
+                return dispatch({ type: SET_LOGGED_IN})
             }
+            else 
+                return dispatch({ type: SET_USER_FAILURE, payoad: await createUserPromise.json()})
         }
         catch (error: any){
             console.log('Sign Up Error: ', error)
 
-            dispatch({
+            return dispatch({
                 type: SET_USER_FAILURE,
                 payload: {
                     message: error.message,
@@ -60,43 +64,48 @@ export const signUpUser = (
                 } 
             })
         }
-
-        return dispatch({
-            type: SET_LOGGED_IN
-        })
     }
 }
 
 export const signInUser = (
-    email: string,
+    username: string,
     password: string
 ) => {
     return async (dispatch: AppDispatch) => {
         dispatch({ type: GET_USER_REQUEST })
 
         try{
-            const signInUserPromise = await fetch('http://localhost:8000/api/users/token', {
+            const signInUserPromise = await fetch('http://localhost:8000/api/users/token/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email,
+                    username,
                     password
                 })
             })
 
+            const payloadJSON = await signInUserPromise.json()
+
             if (signInUserPromise.ok) {
                 dispatch({
                     type: GET_USER_SUCCESS,
-                    payload: await signInUserPromise.json()
+                    payload: payloadJSON 
+                })  
+                return dispatch({
+                    type: SET_LOGGED_IN
                 })
             }
+            else{
+                console.log("Error: ", payloadJSON)
+                return dispatch({ type: GET_USER_FAILURE, payload: payloadJSON })
+            } 
         }
         catch (error: any){
             console.log('Sign In Error: ', error)
 
-            dispatch({
+            return dispatch({
                 type: GET_USER_FAILURE,
                 payload: {
                     message: error.message,
@@ -104,9 +113,5 @@ export const signInUser = (
                 }
             })
         }
-        
-        return dispatch({
-            type: SET_LOGGED_IN
-        })
     }
 }
