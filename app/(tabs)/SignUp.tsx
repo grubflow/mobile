@@ -20,9 +20,11 @@ import { useFonts } from 'expo-font'
 import Button from '@/components/Button'
 import ScreenLayout from '@/components/ScreenLayout'
 import PasswordRequirements from '@/components/PasswordRequirements'
+import { signUpUser } from '../actions/user'
+import { UseAppDispatch, UseAppSelector } from '../store'
 
 const SignUp = () => {
-
+    const dispatch = UseAppDispatch()
     const router = useRouter()
     const [loaded, error] = useFonts({
         Comfortaa: require('../../assets/fonts/Comfortaa-Regular.ttf'),
@@ -33,6 +35,7 @@ const SignUp = () => {
     const [displayName, setDisplayName] = useState('')
     const [showPasswordsDontMatch, setShowPasswordsDontMatch] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const [registerNotification, setRegisterNotification] = useState(false)
 
     const emailFillValue = useRef(new Animated.Value(0)).current
     const passwordFillValue = useRef(new Animated.Value(0)).current
@@ -71,6 +74,8 @@ const SignUp = () => {
         return null;
     }
 
+    const user = UseAppSelector((state) => state.user)
+
     return (
         <ScreenLayout>
             <View style={{
@@ -107,10 +112,9 @@ const SignUp = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    gap: '7%',
                 }}
                 >
-                    <View style={[styles.inputButton, { position: 'relative', overflow: 'hidden' }]}>
+                    <View style={[styles.inputButton, { position: 'relative'}]}>
                         <Animated.View
                             style={{
                                 position: 'absolute',
@@ -123,7 +127,7 @@ const SignUp = () => {
                             }}
                         />
                         <TextInput
-                            onEndEditing={() => animateButtonColor(emailFillValue)}
+                            onEndEditing={() => {if (email !== "") animateButtonColor(emailFillValue)}}
                             autoCapitalize='none'
                             value={email}
                             onChangeText={setEmail}
@@ -137,6 +141,19 @@ const SignUp = () => {
                             }}
                         />
                     </View>
+                    {
+                        registerNotification ? (
+                            <Text style={{
+                                fontSize: 11,
+                                color: 'red',
+                                alignSelf: 'center',
+                                marginBottom: -10,
+                                marginTop: 5,
+                            }}>
+                                Email is already in use.
+                            </Text>
+                        ) : null
+                    }
                     <View style={[styles.inputButton, { position: 'relative', overflow: 'hidden' }]}>
                         <Animated.View
                             style={{
@@ -150,7 +167,7 @@ const SignUp = () => {
                             }}
                         />
                         <TextInput
-                            onEndEditing={() => animateButtonColor(passwordFillValue)}
+                            onEndEditing={() => {if (password !== "") animateButtonColor(passwordFillValue)}}
                             secureTextEntry={!showPassword}
                             autoCapitalize='none'
                             value={password}
@@ -207,7 +224,7 @@ const SignUp = () => {
                             }}
                         />
                         <TextInput
-                            onEndEditing={() => {animateButtonColor(confirmPasswordFillValue), setShowPasswordsDontMatch(password !== confirmPassword)}}
+                            onEndEditing={() => {if (confirmPassword !== "") animateButtonColor(confirmPasswordFillValue), setShowPasswordsDontMatch(password !== confirmPassword)}}
                             secureTextEntry={!showPassword}
                             autoCapitalize='none'
                             value={confirmPassword}
@@ -238,7 +255,7 @@ const SignUp = () => {
                                 }}
                             />
                             <TextInput
-                                onEndEditing={() => animateButtonColor(displayNameFillValue)}
+                                onEndEditing={() => {if (displayName !== "") animateButtonColor(displayNameFillValue)}}
                                 autoCapitalize='none'
                                 value={displayName}
                                 onChangeText={setDisplayName}
@@ -273,11 +290,19 @@ const SignUp = () => {
                     </View>
                     <Button 
                         color="#FC6C85"
-                        onPress={() => router.push('../authenticated/(tabs)/index')}
+                        onPress={async () => {
+                            await dispatch(signUpUser(email, password, displayName)).then(() => {
+                                if (!user.error)
+                                    router.push('/authenticated/(tabs)')
+                                else if (user.error?.code === 400)
+                                    setRegisterNotification(true)
+                            })
+                        }}
                         loading={false}
                         fullWidth
                         disabled={
                             !email || 
+                            !email.includes('@') ||
                             !password || 
                             !confirmPassword || 
                             password !== confirmPassword ||
@@ -334,6 +359,7 @@ const SignUp = () => {
 
 const styles = StyleSheet.create({
     inputButton: {
+        marginTop: '7%',
         maxWidth: '100%',
         borderRadius: 5,
         borderWidth: 1,
