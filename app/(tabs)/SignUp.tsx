@@ -9,7 +9,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 import { useEffect, useRef, useState } from 'react'
-import { Eye } from 'react-native-feather'
+import { Eye, EyeOff } from 'react-native-feather'
 import { useFonts } from 'expo-font'
 import Button from '@/components/Button'
 import ScreenLayout from '@/components/ScreenLayout'
@@ -213,14 +213,24 @@ const SignUp = () => {
                                     strokeWidth={1}
                                     width={20}
                                 ></Eye>
-                            ) : null}
-                            <Text style={{ fontSize: 11 }}>
-                                {password
-                                    ? !showPassword
-                                        ? 'show'
-                                        : 'hide'
-                                    : null}
-                            </Text>
+                            ) : 
+                            (
+                                <EyeOff
+                                    color={'black'}
+                                    strokeWidth={1}
+                                    width={20}
+                                ></EyeOff>
+                            )
+                            }
+                            {
+                                password ? (
+                                    <Text style={{
+                                        fontSize: 11
+                                    }}>
+                                        {showPassword ? 'hide' : 'show'}
+                                    </Text>
+                                ) : null
+                            }
                         </TouchableOpacity>
                     </View>
                     {showPasswordsDontMatch ? (

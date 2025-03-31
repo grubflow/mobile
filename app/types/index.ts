@@ -18,28 +18,32 @@ export type BaseUserState = {
 }
 
 export type UserState = BaseUserState & {
-    loggedIn: boolean
+    logged_in: boolean
     user?: User
     token?: string
 }
 
 export type Swipable = {
-    Recipe?: Recipe
-    Restaurant?: Restaurant
-    category?: string
-    imageURL?: string
-    description: string
-    dateAdded: string
+    restaurant?: GoogleMapsRestaurant 
+    recipe?: UserRecipe
+    individual_rating: number
+    direction: boolean
+}
+
+export type GoogleMapsRestaurant = {
     name: string
-}
-
-export type Restaurant = {
+    description?: string
     location: Location
+    rating: number
 }
 
-export type Recipe = {
-    username?: string
+export type UserRecipe = {
+    name: string
+    username: string
+    image?: string
+    description: string
     ingredients?: string[]
+    steps?: string[]
 }
 
 export type Location = {
@@ -48,4 +52,19 @@ export type Location = {
     country: string
     zip: string
     address: string
+}
+
+export type Group = {
+    group_name: string
+    group_size: number
+    max_capacity: number
+    owner_username: string
+}
+
+export type GroupInvite = {
+    receiver_username :string
+    sender_username: string
+    sender_image: string
+    group_size: number
+    max_capacity: number
 }

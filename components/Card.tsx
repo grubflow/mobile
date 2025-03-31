@@ -1,9 +1,7 @@
-import { useFonts } from 'expo-font'
 import { useEffect, useState } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { Check, X } from 'react-native-feather'
 import MapView from 'react-native-maps'
-import * as Permissions from 'react-native-permissions'
 
 type CardParams = {
     title: string
@@ -12,20 +10,16 @@ type CardParams = {
 }
 
 export default (props: CardParams) => {
-    const [loaded, error] = useFonts({
-        'WinkySans': require('../assets/fonts/WinkySans-VariableFont_wght.ttf'),
-    })
-
     const [location, setLocation] = useState(null)
 
     return (
         <View
             style={styles.card}
         >
-            <Text style={{ fontSize: 36, fontFamily: 'WinkySans', fontWeight: '200', height: '10%'}}>{props.title}</Text>
+            <Text style={{ fontSize: 36, fontFamily: 'Arial', fontWeight: '800', height: '10%'}}>{props.title}</Text>
             <Image style={{ width: 180, height: 180 }} source={require('../assets/images/react-logo.png')}/>
-            <Text style={{ fontFamily: 'Comfortaa', height: '25%', overflow: 'hidden' }}>{props.body}</Text>
-            {/* if restaurant, google api it */}
+            <Text style={{ fontFamily: 'Arial', fontWeight: '200', height: '25%', overflow: 'hidden' }}>{props.body}</Text>
+            {/* if restaurant, google api it, distance from user, rating, etc.*/}
             {/* <MapView style={{ width: '50%', height: '25%'}} followsUserLocation={true}></MapView> */}
             <View
                 style={{
@@ -74,14 +68,16 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    height: '85%',
+    height: '80%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: '5%',
-    borderRadius: 10,
-    backgroundColor: "white"
+    paddingVertical: '5%',
+    borderRadius: 25,
+    backgroundColor: "#FFF",
+    borderColor: 'lightgray',
+    borderWidth: 1,
   },
   text: {
     textAlign: "center",

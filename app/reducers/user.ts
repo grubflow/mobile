@@ -15,7 +15,7 @@ export const CLEAR_USER_ERRORS = '@@user/CLEAR_USER_ERRORS'
 
 export const InitialUserState: UserState = {
     loading: false,
-    loggedIn: false,
+    logged_in: false,
     user: undefined,
     error: undefined,
     token: undefined
@@ -53,7 +53,7 @@ export default (state = InitialUserState, action: UnknownAction) => {
         case SET_LOGGED_IN:
             return {
                 ...state,
-                loggedIn: true
+                logged_in: true
             }
         case CLEAR_USER_ERRORS:
             return {
