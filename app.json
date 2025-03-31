@@ -36,6 +36,12 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["LocationWhenInUse"]
+        }
       ]
     ],
     "experiments": {
