@@ -24,6 +24,7 @@ npm i
 ```
 
 - Installing CocoaPods
+
 ```bash
 cd ios/
 pod install
@@ -32,17 +33,10 @@ cd ..
 
 ### Starting The Application
 
-- Obtain a `.env` file from a GrubFlow collaborator 
+- Obtain a `.env` file from a GrubFlow collaborator
 - Move the `.env` file to the root directory
-- Run the Local Metro on Expo Go:
-
-```bash
-npx expo start
-```
-
-### Native Specifics
-
-#### Starting iOS and Android Natives:
+- Run the native app
+- Connect your device via Expo Go
 
 - iOS
 
@@ -56,7 +50,7 @@ npx expo run:ios
 npx expo run:android
 ```
 
-#### Running simulators:
+### Establishing Simulator Connections
 
 - Install XCode and Android Studio's Latest Simulators (iPhone 16 and Google Pixel 8a respectively).
 
@@ -68,15 +62,12 @@ npx expo start
 
 #### Enter the following on the Local Metro on Expo Go
 
-- iOS simulator:
-`
-i
-`
+- iOS Simulator:
+  `i`
 
-- Android simulator:
-`
-a
-`
+- Android Simulator:
+  `a`
 
 <br></br>
+
 - Ensure the [backend application](https://github.com/grubflow/backend) is running for the frontend to properly function.

@@ -14,53 +14,53 @@ export const SET_LOGGED_IN = '@@user/SET_LOGGED_IN'
 export const CLEAR_USER_ERRORS = '@@user/CLEAR_USER_ERRORS'
 
 export const InitialUserState: UserState = {
-    loading: false,
-    logged_in: false,
-    user: undefined,
-    error: undefined,
-    token: undefined
+  loading: false,
+  logged_in: false,
+  user: undefined,
+  error: undefined,
+  token: undefined
 }
 
 export default (state = InitialUserState, action: UnknownAction) => {
-    switch (action.type) {
-        case GET_USER_REQUEST:
-        case SET_USER_REQUEST:
-            return {
-                ...state,
-                loading: true
-            }
-        case GET_USER_SUCCESS:
-        case SET_USER_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: undefined,
-                user: action.payload as User
-            }
-        case GET_USER_FAILURE:
-        case SET_USER_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload as Error
-            }
-        case SET_LOGGED_OUT:
-            return {
-                ...state,
-                user: undefined
-            }
+  switch (action.type) {
+    case GET_USER_REQUEST:
+    case SET_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_USER_SUCCESS:
+    case SET_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: undefined,
+        user: action.payload as User
+      }
+    case GET_USER_FAILURE:
+    case SET_USER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload as Error
+      }
+    case SET_LOGGED_OUT:
+      return {
+        ...state,
+        user: undefined
+      }
 
-        case SET_LOGGED_IN:
-            return {
-                ...state,
-                logged_in: true
-            }
-        case CLEAR_USER_ERRORS:
-            return {
-                ...state,
-                error: undefined
-            }
-        default:
-            return state
-    }
+    case SET_LOGGED_IN:
+      return {
+        ...state,
+        logged_in: true
+      }
+    case CLEAR_USER_ERRORS:
+      return {
+        ...state,
+        error: undefined
+      }
+    default:
+      return state
+  }
 }
