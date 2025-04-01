@@ -5,7 +5,7 @@ import groups from './groups'
 export const store = configureStore({
   reducer: {
     user,
-    groups
+    // groups
   }
 })
 
