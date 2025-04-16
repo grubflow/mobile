@@ -1,3 +1,4 @@
+import { Region } from "react-native-maps"
 import { authRequestWithDispatch } from "../actions"
 import { 
     GET_USER_REQUEST, 
@@ -8,9 +9,12 @@ import {
     SET_USER_FAILURE, 
     SET_USER_SUCCESS,
 
-    SET_LOGGED_IN
+    SET_LOGGED_IN,
+    SET_USER_LOCATION_REQUEST,
+    SET_USER_LOCATION_SUCCESS,
+    SET_USER_LOCATION_FAILURE,
 } from "../reducers/user"
-import { AppDispatch, UseAppSelector } from "../store"
+import { AppDispatch } from "../store"
 import { Error } from "../types"
 import { setKey } from "../utils/storage"
 

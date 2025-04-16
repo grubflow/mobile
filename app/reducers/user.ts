@@ -1,9 +1,6 @@
 import { UnknownAction } from '@reduxjs/toolkit'
-import { 
-    Error, 
-    User,
-    UserState,
-} from '../types'
+import { Error, User, UserState } from '../types'
+import { Region } from 'react-native-maps'
 
 export const GET_USER_REQUEST = '@@user/GET_USER_REQUEST'
 export const GET_USER_SUCCESS = '@@user/GET_USER_SUCCESS'
@@ -17,54 +14,69 @@ export const SET_LOGGED_OUT = '@@user/SET_LOGGED_OUT'
 export const SET_LOGGED_IN = '@@user/SET_LOGGED_IN'
 export const CLEAR_USER_ERRORS = '@@user/CLEAR_USER_ERRORS'
 
+export const SET_USER_LOCATION_REQUEST = '@@user/SET_USER_LOCATION_REQUEST'
+export const SET_USER_LOCATION_SUCCESS = '@@user/SET_USER_LOCATION_SUCCESS'
+export const SET_USER_LOCATION_FAILURE = '@@user/SET_USER_LOCATION_FAILURE'
+
 export const InitialUserState: UserState = {
-    loading: false,
-    loggedIn: false,
-    user: undefined,
-    error: undefined,
-    token: undefined,
+  loading: false,
+  logged_in: false,
+  user: undefined,
+  error: undefined,
+  token: undefined,
+  locationPermission: undefined,
+  location: null
 }
 
 export default (state = InitialUserState, action: UnknownAction) => {
-    switch (action.type) {
-        case GET_USER_REQUEST:
-        case SET_USER_REQUEST:
-            return {
-                ...state,
-                loading: true,
-            }
-        case GET_USER_SUCCESS:
-        case SET_USER_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: undefined,
-                user: action.payload as User,
-            }
-        case GET_USER_FAILURE:
-        case SET_USER_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload as Error,
-            }
-        case SET_LOGGED_OUT:
-            return {
-                ...state,
-                user: undefined,
-            }
+  switch (action.type) {
+    case GET_USER_REQUEST:
+    case SET_USER_REQUEST:
+    case SET_USER_LOCATION_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_USER_SUCCESS:
+    case SET_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: undefined,
+        user: action.payload as User
+      }
+    case GET_USER_FAILURE:
+    case SET_USER_FAILURE:
+    case SET_USER_LOCATION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload as Error
+      }
+    case SET_LOGGED_OUT:
+      return {
+        ...state,
+        user: undefined
+      }
 
-        case SET_LOGGED_IN:
-            return {
-                ...state,
-                loggedIn: true,
-            }
-        case CLEAR_USER_ERRORS:
-            return {
-                ...state,
-                error: undefined,
-            }
-        default:
-            return state
-    }
+    case SET_LOGGED_IN:
+      return {
+        ...state,
+        logged_in: true
+      }
+    case SET_USER_LOCATION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: undefined,
+        location: action.payload as Region
+      }
+    case CLEAR_USER_ERRORS:
+      return {
+        ...state,
+        error: undefined
+      }
+    default:
+      return state
+  }
 }

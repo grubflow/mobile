@@ -1,7 +1,4 @@
-import { 
-    useDispatch, 
-    useSelector
-} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { store } from '../reducers'
 
 export type RootState = ReturnType<typeof store.getState>
